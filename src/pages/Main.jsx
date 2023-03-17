@@ -1,10 +1,19 @@
-import React from 'react'
+import React from "react";
+import NavBar from "../components/NavBar/NavBar";
+import LandingPage from "../components/LandingPage/LandingPage";
+import { auth } from "../firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { GoogleAuthProvider, signInWithRedirect } from "firebase/auth";
+import { Navigate } from "react-router-dom";
 
 const Main = () => {
-  console.log(process.env.REACT_APP_FIREBASE_API_KEY)
+  const [user] = useAuthState(auth);
   return (
-    <div>Main</div>
-  )
-}
+    <>
+      <NavBar />
+      <LandingPage />
+    </>
+  );
+};
 
-export default Main
+export default Main;
