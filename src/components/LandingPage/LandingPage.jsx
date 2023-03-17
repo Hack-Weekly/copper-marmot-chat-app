@@ -3,7 +3,6 @@ import { LandingPageStyled } from "./LandingPage.styled";
 import { auth } from "../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { GoogleAuthProvider, signInWithRedirect } from "firebase/auth";
-import { Navigate } from "react-router-dom";
 
 const LandingPage = () => {
   const [user] = useAuthState(auth);
