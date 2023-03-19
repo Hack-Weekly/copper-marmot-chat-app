@@ -11,7 +11,7 @@ const LandingPage = () => {
   };
 
   return (
-    <div className="d-flex flex-column justify-content-center align-items-center h-100">
+    <div className="d-flex mx-auto align-self-center flex-column justify-content-center align-items-center h-100">
       <img
         src={require("../../img/copper_login_logo.png")}
         alt="Logo"

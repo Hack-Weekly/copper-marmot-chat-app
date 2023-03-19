@@ -7,7 +7,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import Main from "./pages/Main";
-import Dashboard from "./pages/Dashboard";
+import Chat from "./pages/Chat";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "./firebase";
 import { ThemeProvider } from 'styled-components';
@@ -15,7 +15,9 @@ import { ThemeProvider } from 'styled-components';
 const theme = {
   colors: {
     primaryDark: "#46525E",
-    primaryLight: "#FFFFFF"
+    primaryLight: "#FFFFFF",
+    primaryTextDark: "#000000",
+    primaryTextLight: "#FFFFFF",
   }
 }
 
@@ -28,7 +30,7 @@ function App() {
         <Router>
           <Routes>
             <Route path="/" element={<Main />} />
-            <Route path="/chat" element={<Dashboard />} />
+            <Route path="/chat" element={<Chat />} />
           </Routes>
         </Router>
       </StyledApp>
