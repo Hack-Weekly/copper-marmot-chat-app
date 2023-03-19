@@ -1,4 +1,5 @@
 import { createGlobalStyle } from "styled-components";
+import styled from 'styled-components';
 
 export const GlobalStyle = createGlobalStyle`
     * {
@@ -12,4 +13,14 @@ export const GlobalStyle = createGlobalStyle`
 
         }
     }
+`;
+
+export const StyledApp = styled.div`
+    height: 90vh;
+    width: 90vw;
+    background-color: ${props => props.theme.colors.primaryDark};
+    border-radius: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;
