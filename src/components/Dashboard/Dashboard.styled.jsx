@@ -2,27 +2,30 @@ import styled from "styled-components";
 
 export const DashboardStyled = styled.div`
     display: flex;
-    margin: 32px;
+    padding: 32px;
     width: 100%;
 `;
 
 export const LeftDashboardStyled = styled.div`
     display: flex;
     flex-direction: column;
+    max-width: 360px;
     flex: 3;
     gap: 1em;
 `;
 
 export const LogoStyled = styled.div`
+    display: flex;
     pointer-events: none;
     user-select: none;
     align-self: center;
+    max-height: 100%;
 `;
 
 export const RightDashboardStyled = styled.div`
     display: flex;
     flex-direction: column;
-    flex: 11;
+    flex: 9;
     margin-left: 16px;
     width: 100%;
     gap: 1em;

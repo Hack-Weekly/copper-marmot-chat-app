@@ -1,6 +1,6 @@
 import { BasicButtonStyled } from "./BasicButton.styled";
 
-export const BasicButton = (props) => {
+const BasicButton = (props) => {
     return (
         <BasicButtonStyled {...props}>
             {props.children}

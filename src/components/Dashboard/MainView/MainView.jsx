@@ -1,6 +1,6 @@
 import { MainViewStyled } from "./MainView.styled";
 
-export const MainView = () => {
+const MainView = () => {
     return (
         <MainViewStyled>
         </MainViewStyled>

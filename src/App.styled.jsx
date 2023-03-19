@@ -12,6 +12,8 @@ export const GlobalStyle = createGlobalStyle`
         p, span, a{
 
         }
+
+        user-select: none;
     }
 `;
 

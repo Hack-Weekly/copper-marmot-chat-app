@@ -11,15 +11,7 @@ import Chat from "./pages/Chat";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "./firebase";
 import { ThemeProvider } from 'styled-components';
-
-const theme = {
-  colors: {
-    primaryDark: "#46525E",
-    primaryLight: "#FFFFFF",
-    primaryTextDark: "#000000",
-    primaryTextLight: "#FFFFFF",
-  }
-}
+import { theme } from "./theme";
 
 function App() {
   const [user] = useAuthState(auth);
