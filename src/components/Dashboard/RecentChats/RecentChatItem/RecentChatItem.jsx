@@ -6,7 +6,10 @@ const RecentChatItem = ({ chat, onClick }) => {
         <RecentChatItemStyled>
             <div className="container">
                 <div className="avatar">
-                    <img src={pfpPic} alt="avatar" />
+                    <div className="img-ct">
+                        <img src={pfpPic} alt="avatar" />
+                    </div>
+                    <span className="online-indicator"></span>
                 </div>
                 <div className="info">
                     <div className="name">Joel Miller</div>

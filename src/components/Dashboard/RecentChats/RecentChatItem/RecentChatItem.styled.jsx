@@ -15,14 +15,30 @@ export const RecentChatItemStyled = styled.div`
         cursor: pointer;
 
         .avatar {
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            overflow: hidden;
-            img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
+            position: relative;
+
+            .img-ct {
+                width: 56px;
+                height: 56px;
+                overflow: hidden;
+                border-radius: 50%;
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            }          
+
+            .online-indicator {
+                position: absolute;
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background-color: ${({ theme }) => theme.colors.greenIndicator};
+                bottom: 0;
+                right: 0;
+                box-sizing: content-box;
+                border: 2px solid ${({ theme }) => theme.colors.primaryLight};
             }
         }
 
@@ -33,11 +49,11 @@ export const RecentChatItemStyled = styled.div`
             flex: 1;
 
             .name {
-                font-size: .9em;
+                font-size: 1em;
             }
 
             .message {
-                font-size: .8em;
+                font-size: .9em;
                 color: ${({ theme }) => theme.colors.secondaryTextLight};
                 white-space: nowrap;
                 text-overflow: ellipsis;

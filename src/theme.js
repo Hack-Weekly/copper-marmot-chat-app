@@ -6,8 +6,11 @@ export const theme = {
       primaryTextDark: "#000000",
       primaryTextLight: "#FFFFFF",
       secondaryTextLight: "#C8CACF",
-      seperator: "#C8CACF40",
 
       placeholderLight: "#FFFFFF80",
+
+      seperator: "#C8CACF40",
+      greenIndicator: "#3FFF3B",
+      orangeIndicator: "#F4B63C",
     }
   }

@@ -8,15 +8,15 @@ const RecentChats = () => {
 
     useEffect(() => {
         setChats([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
-    }, [chats])
-
+        // TODO: get from firebase
+    }, [])
 
     return (
         <RecentChatsStyled>
             <SearchBar />
             <div className="recent-chats-ct">
-                {chats.map(chat => (
-                    <RecentChatItem chat={chat} />
+                {chats.map((chat, index) => (
+                    <RecentChatItem chat={chat} key={index} />
                 ))}
             </div>
         </RecentChatsStyled>
