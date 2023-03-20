@@ -12,6 +12,8 @@ export const GlobalStyle = createGlobalStyle`
         p, span, a{
 
         }
+
+        user-select: none;
     }
 `;
 
@@ -21,6 +23,4 @@ export const StyledApp = styled.div`
     background-color: ${props => props.theme.colors.primaryDark};
     border-radius: 16px;
     display: flex;
-    justify-content: center;
-    align-items: center;
 `;
