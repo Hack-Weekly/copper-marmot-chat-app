@@ -11,48 +11,49 @@ const LandingPage = () => {
   };
 
   return (
-    <div className="d-flex mx-auto align-self-center flex-column justify-content-center align-items-center h-100">
-      <img
-        src={require("../../img/copper_login_logo.png")}
-        alt="Logo"
-        className="img-fluid mx-auto mb-4"
-        style={{ maxHeight: "100px" }}
-      />
-      <div className="bg-white rounded p-4">
-        <form className="text-center">
-          <div className="form-floating mb-3">
+    <div className="d-flex align-items-center mx-auto h-100">
+      <div className="bg-white rounded-4 px-5 py-4 d-flex flex-column flex-column justify-content-center align-items-center">
+        <img
+          src={require("../../img/copper_login_logo.png")}
+          alt="Logo"
+          className="img-fluid mx-auto mb-4"
+          style={{ maxHeight: "100px" }}
+        />
+        <form className="text-center m-4">
+          <div className="form mb-2">
             <input
               type="email"
-              className="form-control rounded-pill"
+              className="form-control rounded-pill px-3"
               id="email"
               aria-describedby="emailHelp"
               placeholder="Email"
-              style={{ backgroundColor: "#C8CACF", color: "white" }}
+              style={{ backgroundColor: "#46525E" }}
             />
-            <label htmlFor="password">Email</label>
           </div>
-          <div className="form-floating mb-3">
+          <div className="form mb-2">
             <input
               type="password"
-              className="form-control rounded-pill sm"
+              className="form-control rounded-pill px-3"
               id="password"
               placeholder="Password"
-              style={{ backgroundColor: "#C8CACF", color: "white" }}
+              style={{ backgroundColor: "#46525E" }}
             />
-            <label htmlFor="password">Password</label>
           </div>
           <button
             type="submit"
-            className="btn btn-primary rounded-pill px-4 mb-3"
+            className="btn border shadow rounded-4 px-5 mb-3"
           >
             Sign in
           </button>
           <p>Or</p>
           <div class="d-grid">
-            <button class="btn btn-light" onClick={googleSignIn}>
+            <button
+              class="btn btn-light rounded-pill border"
+              onClick={googleSignIn}
+            >
               <img
                 src="https://img.icons8.com/color/16/000000/google-logo.png"
-                class="me-2"
+                className="me-2"
                 alt="Google Logo"
               />
               Continue with Google
