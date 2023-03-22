@@ -5,6 +5,7 @@ import {
   Routes,
   Route,
   Navigate,
+  redirect,
 } from "react-router-dom";
 import Main from "./pages/Main";
 import Chat from "./pages/Chat";
@@ -14,7 +15,6 @@ import { ThemeProvider } from 'styled-components';
 import { theme } from "./theme";
 
 function App() {
-  const [user] = useAuthState(auth);
   return (
     <ThemeProvider theme={theme}>
       <StyledApp>
