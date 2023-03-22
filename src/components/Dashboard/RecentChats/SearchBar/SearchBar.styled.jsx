@@ -8,17 +8,4 @@ export const SearchBarStyled = styled.div`
     border-radius: 16px;
     background-color: ${({ theme }) => theme.colors.primaryDark};
     color: ${({ theme }) => theme.colors.primaryTextLight};
-
-    input {
-        border: none;
-        background-color: transparent;
-        font-size: .9em;
-        outline: none;
-        caret-color: ${({ theme }) => theme.colors.primaryTextLight};
-        color: ${({ theme }) => theme.colors.primaryTextLight};
-        
-        ::placeholder {
-            color: ${({ theme }) => theme.colors.placeholderLight};
-        }
-    }
 `;

@@ -1,16 +1,11 @@
 import { RecentChatItemStyled } from "./RecentChatItem.styled";
-import pfpPic from '../../../../img/pfp_joel.png';
+import { ProfilePicture } from "../../ProfilePicture/ProfilePicture";
 
 const RecentChatItem = ({ chat, onClick }) => {
     return (
         <RecentChatItemStyled>
             <div className="container">
-                <div className="avatar">
-                    <div className="img-ct">
-                        <img src={pfpPic} alt="avatar" />
-                    </div>
-                    <span className="online-indicator"></span>
-                </div>
+                <ProfilePicture />
                 <div className="info">
                     <div className="name">Joel Miller</div>
                     <div className="message">You coming over tonight?</div>

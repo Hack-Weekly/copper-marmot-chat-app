@@ -16,22 +16,5 @@ export const RecentChatsStyled = styled.div`
         flex-direction: column;
         overflow-y: auto;
         height: 100%;
-
-        // make scrollbar transparent
-        &::-webkit-scrollbar {
-            width: 4px;
-            background-color: transparent;
-            
-            &-thumb {
-                border-radius: 16px;
-            }
-        }
-
-        :hover {
-            &::-webkit-scrollbar-thumb {
-                background: ${({ theme }) => theme.colors.primaryDarkHalf};
-            }
-        }
-
     }
 `;
