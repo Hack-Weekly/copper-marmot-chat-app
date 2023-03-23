@@ -40,7 +40,7 @@ export const createUserDoc = (user) => {
  * @param {*} participants Array of user documents
  */
 export const createConversationDoc = (participants) => {
-    addDoc(collection(db, "conversations"), {
+    return addDoc(collection(db, "conversations"), {
         participants: participants,
         lastMsgTimestamp: null
     });

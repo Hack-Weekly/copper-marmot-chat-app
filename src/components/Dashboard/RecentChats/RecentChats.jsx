@@ -16,7 +16,7 @@ const RecentChats = (props) => {
     const [searchQuery, setSearchQuery] = useState("");
 
     const handleRecentChatClick = (data) => {
-        if (data)
+        setSearchQuery("");
 
         if (currentConversation?.id !== data.id)
             setCurrentConversation(data);

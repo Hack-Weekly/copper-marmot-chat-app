@@ -1,10 +1,10 @@
 import { faCommentDots } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { doc } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { TIME_FORMAT } from "../../../../consts";
-import { auth } from "../../../../firebase";
+import { auth, db } from "../../../../firebase";
 import { createConversationDoc, getOtherUserDoc, getUserDoc } from "../../../../firebaseUtils";
 import { ProfilePicture } from "../../ProfilePicture/ProfilePicture";
 import { RecentChatItemStyled } from "./RecentChatItem.styled";
@@ -14,20 +14,21 @@ const RecentChatItem = (props) => {
     const isUser = props.isUser; // not a conversation, but a new user
     const [user, setUser] = useState(null);
 
-    const handleClick = async () => {
+    const handleClick = () => {
         if (!isUser) {
             props.onClick(data);
         } else {
-            console.log(doc(`users/${auth.currentUser.uid}`), doc(`users/${user.id}`))
-            createConversationDoc([doc(`users/${auth.currentUser.uid}`), doc(`users/${user.id}`)])
-            // const participants = [getUserDoc(auth.currentUser.uid), getUserDoc(user.id)];
-            // Promise.all(participants)
-            //     .then((docs) => {
-            //         createConversationDoc(docs.map((doc) => doc.data()));
-            //     })
-            //     .then((conversation) => {
-            //         props.onClick(conversation);
-            //     });
+            // TODO: we shuoldn't create a new conversation if one already exists
+            createConversationDoc([doc(db, `users/${auth.currentUser.uid}`), doc(db, `users/${user.id}`)])
+                .then(async (ref) => {
+                    getDoc(ref)
+                        .then((doc) => {
+                            props.onClick({ ...doc?.data(), id: doc?.id });
+                        })
+                })
+                .catch((err) => {
+                    console.error(err);
+                });
         }
     };
 

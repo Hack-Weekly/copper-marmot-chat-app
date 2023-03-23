@@ -1,4 +1,4 @@
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { GoogleAuthProvider, signInWithPopup, signInWithRedirect } from "firebase/auth";
 import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../firebase";
@@ -9,7 +9,7 @@ const LandingPage = () => {
 
   const googleSignIn = () => {
     const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider)
+    signInWithRedirect(auth, provider)
       .then((result) => {
         const user = result.user;
         getUserDoc(user.uid)

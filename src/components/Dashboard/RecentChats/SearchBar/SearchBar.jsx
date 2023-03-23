@@ -8,7 +8,7 @@ const SearchBar = (props) => {
     return (
         <SearchBarStyled>
             <FontAwesomeIcon icon={faMagnifyingGlass} />
-            <input type="text" placeholder="Search" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
+            <input type="text" placeholder="Search new users" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
         </SearchBarStyled>
     );
 }
