@@ -1,17 +1,9 @@
 import "./App.css";
 import { GlobalStyle, StyledApp } from "./App.styled";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-  redirect,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Main from "./pages/Main";
 import Chat from "./pages/Chat";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "./firebase";
-import { ThemeProvider } from 'styled-components';
+import { ThemeProvider } from "styled-components";
 import { theme } from "./theme";
 
 function App() {
