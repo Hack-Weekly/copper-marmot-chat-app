@@ -6,7 +6,6 @@ import { createUserDoc, getUserDoc } from "../../firebaseUtils";
 
 const LandingPage = () => {
   const [user] = useAuthState(auth);
-  auth.signOut()
 
   const googleSignIn = () => {
     const provider = new GoogleAuthProvider();

@@ -1,4 +1,4 @@
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { addDoc, collection, doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from './firebase';
 
 /**
@@ -32,5 +32,16 @@ export const createUserDoc = (user) => {
         userName: user.displayName,
         email: user.email,
         profilePicture: user.photoURL,
+    });
+}
+
+/**
+ * Creates a conversation document in the conversations collection, with the participants
+ * @param {*} participants Array of user documents
+ */
+export const createConversationDoc = (participants) => {
+    addDoc(collection(db, "conversations"), {
+        participants: participants,
+        lastMsgTimestamp: null
     });
 }

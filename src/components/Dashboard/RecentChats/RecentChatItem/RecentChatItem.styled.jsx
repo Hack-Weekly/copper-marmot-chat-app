@@ -65,7 +65,12 @@ export const RecentChatItemStyled = styled.div`
             align-self: flex-start;
             font-size: .7em;
         }
+
+        .chat-btn {
+            font-size: 1.2em;
+        }
     }
+
 
     .seperator {
         width: 100%;

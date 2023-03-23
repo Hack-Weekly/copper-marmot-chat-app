@@ -1,4 +1,4 @@
-import { collection, DocumentReference, limit, onSnapshot, orderBy, query, where } from "firebase/firestore";
+import { collection, DocumentReference, endAt, getDocs, limit, onSnapshot, orderBy, query, startAt, where } from "firebase/firestore";
 import { useContext, useEffect, useState } from "react";
 import { db, auth } from '../../../firebase';
 import { UserContext } from "../../../pages/Main";
@@ -13,10 +13,13 @@ const RecentChats = (props) => {
     const setCurrentConversation = props.setCurrentConversation;
     const { displayName, uid } = auth.currentUser;
     const userDoc = useContext(UserContext);
+    const [searchQuery, setSearchQuery] = useState("");
 
-    const handleRecentChatClick = (recentChat) => {
-        if (currentConversation?.id !== recentChat.id)
-            setCurrentConversation(recentChat);
+    const handleRecentChatClick = (data) => {
+        if (data)
+
+        if (currentConversation?.id !== data.id)
+            setCurrentConversation(data);
     }
 
     const startFirebaseRecentChatsListener = () => {
@@ -41,19 +44,44 @@ const RecentChats = (props) => {
         if (!userDoc)
             return;
 
+        if (searchQuery.length > 0) {
+            setRecentChats([]);
+            console.log("searching")
+            getDocs(query(
+                collection(db, "users"),
+                orderBy("name"),
+                startAt(searchQuery),
+                endAt(searchQuery + "\uf8ff"),
+                limit(50)
+            ))
+                .then((QuerySnapshot) => {
+                    let recentChats = [];
+                    QuerySnapshot.forEach((doc) => {
+                        recentChats.push({ ...doc.data(), id: doc.id });
+                        console.log(recentChats);
+                    });
+
+                    setRecentChats(recentChats);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+            return;
+        }
+
         const recentChatsUnsub = startFirebaseRecentChatsListener();
 
         return () => {
             recentChatsUnsub();
         }
-    }, [userDoc])
+    }, [userDoc, searchQuery])
 
     return (
         <RecentChatsStyled>
-            <SearchBar />
+            <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
             <div className="recent-chats-ct">
                 {recentChats.map((recentChat, index) => (
-                    <RecentChatItem recentChat={recentChat} key={index} onClick={handleRecentChatClick} />
+                    <RecentChatItem recentChat={recentChat} key={index} onClick={handleRecentChatClick} isUser={searchQuery.length > 0} />
                 ))}
             </div>
         </RecentChatsStyled>
