@@ -12,7 +12,7 @@ const LandingPage = () => {
 
   const googleSignIn = () => {
     const provider = new GoogleAuthProvider();
-    signInWithRedirect(auth, provider)
+    signInWithPopup(auth, provider)
       .then((result) => {
         const user = result.user;
         getUserDoc(user.uid)
