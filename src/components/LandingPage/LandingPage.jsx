@@ -7,6 +7,9 @@ import { createUserDoc, getUserDoc } from "../../firebaseUtils";
 const LandingPage = () => {
   const [user] = useAuthState(auth);
 
+  // TODO: remove this when everyone already has a user doc
+  auth.signOut();
+
   const googleSignIn = () => {
     const provider = new GoogleAuthProvider();
     signInWithRedirect(auth, provider)
