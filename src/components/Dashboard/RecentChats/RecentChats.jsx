@@ -19,10 +19,7 @@ const RecentChats = (props) => {
             setCurrentConversation(recentChat);
     }
 
-    useEffect(() => {
-        if (!userDoc)
-            return;
-
+    const startFirebaseRecentChatsListener = () => {
         const q = query(
             collection(db, "conversations"),
             where("participants", "array-contains", userDoc.ref),
@@ -30,23 +27,25 @@ const RecentChats = (props) => {
             limit(50)
         );
 
-        const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
+        return onSnapshot(q, (QuerySnapshot) => {
             let recentChats = [];
             QuerySnapshot.forEach((doc) => {
                 recentChats.push({ ...doc.data(), id: doc.id });
             });
 
-
-            console.log(recentChats)
-
             setRecentChats(recentChats);
         });
+    }
 
-        // setRecentChats([{
-        //     name: "John Doe",
-        //     lastMessage: "Hello, how are you?",
-        //     lastMessageDate: 1679580261,
-        // }])
+    useEffect(() => {
+        if (!userDoc)
+            return;
+
+        const recentChatsUnsub = startFirebaseRecentChatsListener();
+
+        return () => {
+            recentChatsUnsub();
+        }
     }, [userDoc])
 
     return (

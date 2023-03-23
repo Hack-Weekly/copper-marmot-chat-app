@@ -11,29 +11,28 @@ import {
   onSnapshot,
   limit,
   where,
+  getDoc,
 } from "firebase/firestore";
 import moment from "moment";
 import { DATE_FORMAT, TIME_FORMAT } from "../../../consts";
-import { isToday } from "../../../utils";
+import { getOtherUserDoc, isToday } from "../../../utils";
 import { map } from "@firebase/util";
-import { ConversationContext } from "../Dashboard";
+import { ConversationContext, ConversationUserContext } from "../Dashboard";
 
 const MainView = (props) => {
   const [messages, setMessages] = useState([]);
   const { displayName, uid } = auth.currentUser;
   const currentConversation = useContext(ConversationContext);
+  const [currentConversationUser, setCurrentConversationUser] = useState(null);
 
-  useEffect(() => {
-    if (!currentConversation)
-      return;
-
+  const startFirebaseMsgsListener = () => {
     const q = query(
       collection(db, "conversations", currentConversation.id, "messages"),
       orderBy("timestamp", "desc"),
       limit(50)
     );
 
-    const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
+    return onSnapshot(q, (QuerySnapshot) => {
       let messages = [];
       QuerySnapshot.forEach((doc) => {
         messages.push({ ...doc.data(), id: doc.id });
@@ -41,23 +40,39 @@ const MainView = (props) => {
 
       setMessages(messages);
     });
+  }
 
-    return () => unsubscribe;
+  useEffect(() => {
+    if (!currentConversation)
+      return;
+
+    getOtherUserDoc(currentConversation, uid)
+      .then((doc) => {
+        setCurrentConversationUser(doc.data());
+      });
+
+    const messagesUnsub = startFirebaseMsgsListener();
+
+    return () => {
+      messagesUnsub();
+    }
   }, [currentConversation]);
 
   if (!currentConversation) {
     return (
-      <MainViewStyled />
+      <MainViewStyled>
+        {/* TODO: create an empty state? */}
+      </MainViewStyled>
     );
   }
 
   return (
     <MainViewStyled>
       <div className="header">
-        <ProfilePicture />
+        <ProfilePicture picture={currentConversationUser?.profilePicture} />
         <div className="info">
-          <div className="name">{displayName}</div> {/* TODO: make this be the current conversation user name instead of our own */}
-          <div className="current-status">Typing...</div>
+          <div className="name">{currentConversationUser?.name}</div>
+          <div className="current-status"></div> {/* Typing goes here*/}
         </div>
       </div>
       <span className="seperator"></span>

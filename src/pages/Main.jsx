@@ -16,12 +16,9 @@ const Main = () => {
     if (!user)
       return;
 
-    console.log(user);
-
     getDoc(doc(db, "users", user.uid))
       .then((doc) => {
         if (doc.exists()) {
-          console.log("User Doc:", doc.id, doc.data());
           setUserDoc(doc);
         }
       });
