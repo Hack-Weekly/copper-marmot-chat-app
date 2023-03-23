@@ -7,7 +7,7 @@ const RecentChatItem = (props) => {
     const data = props.recentChat;
 
     return (
-        <RecentChatItemStyled>
+        <RecentChatItemStyled onClick={() => props.onClick(data)}>
             <div className="container">
                 <ProfilePicture />
                 <div className="info">

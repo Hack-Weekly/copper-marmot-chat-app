@@ -15,25 +15,25 @@ export const ConversationContext = createContext(null);
 const Dashboard = () => {
     const [currentConversation, setCurrentConversation] = useState(); // TODO: change to actual current conv
 
-    useEffect(() => {
-        getDoc(doc(db, "conversations", "szbx3viXZ7TnLc0gZlWT"))
-            .then((doc) => {
-                if (doc.exists()) {
-                    console.log("Current Conversation:", doc.id, doc.data());
-                    setCurrentConversation(doc);
-                }
-            })
-            .catch((error) => {
-                console.error("Error getting document:", error);
-            });
+    // useEffect(() => {
+    //     getDoc(doc(db, "conversations", "szbx3viXZ7TnLc0gZlWT"))
+    //         .then((doc) => {
+    //             if (doc.exists()) {
+    //                 console.log("Current Conversation:", doc.id, doc.data());
+    //                 setCurrentConversation(doc);
+    //             }
+    //         })
+    //         .catch((error) => {
+    //             console.error("Error getting document:", error);
+    //         });
 
-        getDocs(collection(db, "conversations", "szbx3viXZ7TnLc0gZlWT", "messages"))
-            .then((messages) => {
-                messages.forEach((message) => {
-                    console.log(message.data());
-                });
-            });
-    }, []);
+    //     getDocs(collection(db, "conversations", "szbx3viXZ7TnLc0gZlWT", "messages"))
+    //         .then((messages) => {
+    //             messages.forEach((message) => {
+    //                 console.log(message.data());
+    //             });
+    //         });
+    // }, []);
 
     return (
         <ConversationContext.Provider value={currentConversation}>

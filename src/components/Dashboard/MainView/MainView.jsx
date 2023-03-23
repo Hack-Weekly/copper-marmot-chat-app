@@ -24,6 +24,9 @@ const MainView = (props) => {
   const currentConversation = useContext(ConversationContext);
 
   useEffect(() => {
+    if (!currentConversation)
+      return;
+
     const q = query(
       collection(db, "conversations", currentConversation.id, "messages"),
       orderBy("timestamp", "desc"),
@@ -41,6 +44,12 @@ const MainView = (props) => {
 
     return () => unsubscribe;
   }, [currentConversation]);
+
+  if (!currentConversation) {
+    return (
+      <MainViewStyled />
+    );
+  }
 
   return (
     <MainViewStyled>

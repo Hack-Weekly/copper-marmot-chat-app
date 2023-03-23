@@ -10,9 +10,14 @@ import SearchBar from './SearchBar/SearchBar';
 const RecentChats = (props) => {
     const [recentChats, setRecentChats] = useState([]);
     const currentConversation = useContext(ConversationContext);
-    const setCurrentConversation = props.currentConversation;
+    const setCurrentConversation = props.setCurrentConversation;
     const { displayName, uid } = auth.currentUser;
     const userDoc = useContext(UserContext);
+
+    const handleRecentChatClick = (recentChat) => {
+        if (currentConversation?.id !== recentChat.id)
+            setCurrentConversation(recentChat);
+    }
 
     useEffect(() => {
         if (!userDoc)
@@ -49,7 +54,7 @@ const RecentChats = (props) => {
             <SearchBar />
             <div className="recent-chats-ct">
                 {recentChats.map((recentChat, index) => (
-                    <RecentChatItem recentChat={recentChat} key={index} />
+                    <RecentChatItem recentChat={recentChat} key={index} onClick={handleRecentChatClick} />
                 ))}
             </div>
         </RecentChatsStyled>
