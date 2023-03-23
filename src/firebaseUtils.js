@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, getDoc, setDoc } from 'firebase/firestore';
+import { addDoc, collection, doc, getDoc, getDocs, query, setDoc, where } from 'firebase/firestore';
 import { db } from './firebase';
 
 /**
@@ -36,12 +36,24 @@ export const createUserDoc = (user) => {
 }
 
 /**
- * Creates a conversation document in the conversations collection, with the participants
+ * Creates a conversation document in the conversations collection, with the given participants.
+ * If a conversation already exists with the same participants, it will return that conversation.
  * @param {*} participants Array of user documents
  */
-export const createConversationDoc = (participants) => {
-    return addDoc(collection(db, "conversations"), {
+export const createConversationDoc = async (participants) => {
+    const docs = await getDocs(query(
+        collection(db, "conversations"),
+        where("participants", "==", participants)
+    ));
+
+    if (!docs.empty) {
+        return docs.docs.shift();
+    }
+
+    const add = await addDoc(collection(db, "conversations"), {
         participants: participants,
         lastMsgTimestamp: null
     });
+
+    return await getDoc(add);
 }

@@ -1,6 +1,6 @@
 import { faCommentDots } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, query } from "firebase/firestore";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { TIME_FORMAT } from "../../../../consts";
@@ -18,13 +18,9 @@ const RecentChatItem = (props) => {
         if (!isUser) {
             props.onClick(data);
         } else {
-            // TODO: we shuoldn't create a new conversation if one already exists
             createConversationDoc([doc(db, `users/${auth.currentUser.uid}`), doc(db, `users/${user.id}`)])
-                .then(async (ref) => {
-                    getDoc(ref)
-                        .then((doc) => {
-                            props.onClick({ ...doc?.data(), id: doc?.id });
-                        })
+                .then((doc) => {
+                    props.onClick({ ...doc?.data(), id: doc?.id });
                 })
                 .catch((err) => {
                     console.error(err);
