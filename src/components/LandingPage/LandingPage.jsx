@@ -48,9 +48,9 @@ const LandingPage = () => {
             Sign in
           </button>
           <p>Or</p>
-          <div class="d-grid">
+          <div className="d-grid">
             <button
-              class="btn btn-light rounded-pill border"
+              className="btn btn-light rounded-pill border"
               onClick={googleSignIn}
             >
               <img
