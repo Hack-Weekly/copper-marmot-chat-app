@@ -1,13 +1,13 @@
 import { ProfilePictureStyled } from "./ProfilePicture.styled";
-import { auth } from "../../../firebase";
+import placeHolderPic from "../../../img/pfp_joel.png";
 
-export const ProfilePicture = () => {
-  const { photoURL } = auth.currentUser;
+export const ProfilePicture = (props) => {
+  const picture = props.picture;
 
   return (
     <ProfilePictureStyled>
       <div className="img-ct">
-        <img src={photoURL} alt="avatar" />
+        <img src={picture ?? placeHolderPic} alt="avatar" />
       </div>
       <span className="online-indicator"></span>
     </ProfilePictureStyled>

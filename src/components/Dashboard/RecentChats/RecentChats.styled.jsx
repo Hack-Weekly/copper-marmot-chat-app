@@ -15,6 +15,5 @@ export const RecentChatsStyled = styled.div`
         display: flex;
         flex-direction: column;
         overflow-y: auto;
-        height: 100%;
     }
 `;

@@ -1,53 +1,72 @@
-import { useEffect, useState } from "react";
+import {
+  collection, limit, onSnapshot, orderBy, query
+} from "firebase/firestore";
+import moment from "moment";
+import { useContext, useEffect, useState } from "react";
+import { DATE_FORMAT, TIME_FORMAT } from "../../../consts";
+import { auth, db } from "../../../firebase";
+import { getOtherUserDoc } from "../../../firebaseUtils";
+import { isToday } from "../../../utils";
+import { ConversationContext } from "../Dashboard";
 import { ProfilePicture } from "../ProfilePicture/ProfilePicture";
 import { MainViewStyled } from "./MainView.styled";
 import { Message } from "./Message/Message";
 import { MessageBar } from "./MessageBar/MessageBar";
-import { auth, db } from "../../../firebase";
-import {
-  query,
-  collection,
-  orderBy,
-  onSnapshot,
-  limit,
-} from "firebase/firestore";
 
-const MainView = () => {
-  const [messages, setMessages] = useState([1, 2, 3, 4, 5, 6]);
+const MainView = (props) => {
+  const [messages, setMessages] = useState([]);
   const { displayName, uid } = auth.currentUser;
+  const currentConversation = useContext(ConversationContext);
+  const [currentConversationUser, setCurrentConversationUser] = useState(null);
 
-  useEffect(() => {
+  const startFirebaseMsgsListener = () => {
     const q = query(
-      collection(db, "messages"),
-      orderBy("createdAt"),
+      collection(db, "conversations", currentConversation.id, "messages"),
+      orderBy("timestamp", "desc"),
       limit(50)
     );
-    const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
+
+    return onSnapshot(q, (QuerySnapshot) => {
       let messages = [];
       QuerySnapshot.forEach((doc) => {
         messages.push({ ...doc.data(), id: doc.id });
       });
-      setMessages(messages.reverse());
-    });
-    return () => unsubscribe;
-  }, []);
 
-  function formatDateFromSeconds(seconds) {
-    const date = new Date(seconds * 1000);
-    const day = date.getDate().toString().padStart(2, "0");
-    const month = (date.getMonth() + 1).toString().padStart(2, "0");
-    const hours = date.getHours().toString().padStart(2, "0");
-    const minutes = date.getMinutes().toString().padStart(2, "0");
-    return `${day}/${month} ${hours}:${minutes}`;
+      setMessages(messages);
+    });
+  }
+
+  useEffect(() => {
+    if (!currentConversation)
+      return;
+
+    getOtherUserDoc(currentConversation, uid)
+      .then((doc) => {
+        setCurrentConversationUser(doc.data());
+      });
+
+    const messagesUnsub = startFirebaseMsgsListener();
+
+    return () => {
+      messagesUnsub();
+    }
+  }, [currentConversation]);
+
+  if (!currentConversation) {
+    return (
+      <MainViewStyled>
+        {/* TODO: create an empty state? */}
+      </MainViewStyled>
+    );
   }
 
   return (
     <MainViewStyled>
       <div className="header">
-        <ProfilePicture />
+        <ProfilePicture picture={currentConversationUser?.profilePicture} />
         <div className="info">
-          <div className="name">{displayName}</div>
-          <div className="current-status">Typing...</div>
+          <div className="name">{currentConversationUser?.name}</div>
+          <div className="current-status"></div> {/* Typing goes here*/}
         </div>
       </div>
       <span className="seperator"></span>
@@ -55,13 +74,12 @@ const MainView = () => {
         {messages.map((message, index) => (
           <Message
             key={index}
-            isMine={message.uid === uid}
             message={{
-              isMine: message.uid === uid,
+              isMine: message.senderId === uid,
               content: message.text,
-              timestamp: message.createdAt
-                ? formatDateFromSeconds(message.createdAt.seconds)
-                : "",
+              timestamp: message.timestamp
+                ? isToday(message.timestamp.seconds) ? moment.unix(message.timestamp.seconds).format(TIME_FORMAT) : moment.unix(message.timestamp.seconds).format(DATE_FORMAT)
+                : moment().format(TIME_FORMAT)
             }}
           />
         ))}
