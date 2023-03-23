@@ -9,8 +9,13 @@ import  NavBar  from '../components/NavBar/NavBar';
 const Main = () => {
   const [user] = useAuthState(auth);
 
+  useEffect(() => {
+    console.log(user)
+  }, [user]);
+
   return (
     <>
+      {/* <NavBar /> */}
       {user ? <Dashboard /> : <LandingPage />}
     </>
   );
