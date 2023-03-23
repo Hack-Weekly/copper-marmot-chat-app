@@ -5,6 +5,8 @@ import { GoogleAuthProvider, signInWithRedirect } from "firebase/auth";
 
 const LandingPage = () => {
   const [user] = useAuthState(auth);
+  console.log(user);
+
   const googleSignIn = () => {
     const provider = new GoogleAuthProvider();
     signInWithRedirect(auth, provider);
