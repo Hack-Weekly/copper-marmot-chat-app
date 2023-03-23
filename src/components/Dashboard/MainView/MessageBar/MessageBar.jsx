@@ -1,12 +1,14 @@
 import { MessageBarStyled } from "./MessageBar.styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane, faSmile } from "@fortawesome/free-regular-svg-icons";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { auth, db } from "../../../../firebase";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { ConversationContext } from "../../Dashboard";
 
 export const MessageBar = () => {
   const [message, setMessage] = useState("");
+  const currentConversation = useContext(ConversationContext);
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
@@ -16,16 +18,17 @@ export const MessageBar = () => {
 
   const handleSendMessage = async () => {
     if (message.trim() === "") {
-      alert("Enter valid message");
       return;
     }
+
     const { uid, displayName, photoURL } = auth.currentUser;
-    await addDoc(collection(db, "messages"), {
+    addDoc(collection(db, "conversations", currentConversation.id, "messages"), {
+      senderId: uid,
+      timestamp: serverTimestamp(),
+      recipientId: "123",
       text: message,
-      name: displayName,
-      avatar: photoURL,
-      createdAt: serverTimestamp(),
-      uid,
+      // name: displayName,
+      // avatar: photoURL,
     });
     setMessage("");
   };

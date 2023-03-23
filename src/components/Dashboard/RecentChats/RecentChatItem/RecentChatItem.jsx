@@ -1,16 +1,20 @@
 import { RecentChatItemStyled } from "./RecentChatItem.styled";
 import { ProfilePicture } from "../../ProfilePicture/ProfilePicture";
+import moment from "moment";
+import { TIME_FORMAT } from "../../../../consts";
 
-const RecentChatItem = ({ chat, onClick }) => {
+const RecentChatItem = (props) => {
+    const data = props.recentChat;
+
     return (
         <RecentChatItemStyled>
             <div className="container">
                 <ProfilePicture />
                 <div className="info">
-                    <div className="name">Joel Miller</div>
-                    <div className="message">You coming over tonight?</div>
+                    <div className="name">{data.name}</div>
+                    <div className="message">{data.lastMessage}</div>
                 </div>
-                <div className="time">19:32</div>
+                <div className="time">{moment.unix(data.lastMsgTimestamp).format(TIME_FORMAT)}</div>
             </div>
             <span className="seperator"></span>
         </RecentChatItemStyled>

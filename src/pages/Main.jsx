@@ -1,23 +1,38 @@
-import React from "react";
+import React, { createContext, useContext, useState } from "react";
 import LandingPage from "../components/LandingPage/LandingPage";
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Dashboard from "../components/Dashboard/Dashboard";
 import { useEffect } from "react";
-import NavBar from "../components/NavBar/NavBar";
+import { doc, getDoc } from "firebase/firestore";
+
+export const UserContext = createContext(null);
 
 const Main = () => {
   const [user] = useAuthState(auth);
+  const [userDoc, setUserDoc] = useState(null);
 
   useEffect(() => {
+    if (!user)
+      return;
+
     console.log(user);
+
+    getDoc(doc(db, "users", user.uid))
+      .then((doc) => {
+        if (doc.exists()) {
+          console.log("User Doc:", doc.id, doc.data());
+          setUserDoc(doc);
+        }
+      });
+
   }, [user]);
 
   return (
-    <>
+    <UserContext.Provider value={userDoc}>
       {/* <NavBar /> */}
       {user ? <Dashboard /> : <LandingPage />}
-    </>
+    </UserContext.Provider>
   );
 };
 

@@ -1,22 +1,55 @@
-import { useEffect, useState } from "react";
+import { collection, DocumentReference, limit, onSnapshot, orderBy, query, where } from "firebase/firestore";
+import { useContext, useEffect, useState } from "react";
+import { db, auth } from '../../../firebase';
+import { UserContext } from "../../../pages/Main";
+import { ConversationContext } from "../Dashboard";
 import RecentChatItem from "./RecentChatItem/RecentChatItem";
 import { RecentChatsStyled } from "./RecentChats.styled";
 import SearchBar from './SearchBar/SearchBar';
 
-const RecentChats = () => {
-    const [chats, setChats] = useState([]);
+const RecentChats = (props) => {
+    const [recentChats, setRecentChats] = useState([]);
+    const currentConversation = useContext(ConversationContext);
+    const setCurrentConversation = props.currentConversation;
+    const { displayName, uid } = auth.currentUser;
+    const userDoc = useContext(UserContext);
 
     useEffect(() => {
-        setChats([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
-        // TODO: get from firebase
-    }, [])
+        if (!userDoc)
+            return;
+
+        const q = query(
+            collection(db, "conversations"),
+            where("participants", "array-contains", userDoc.ref),
+            orderBy("lastMsgTimestamp", "desc"),
+            limit(50)
+        );
+
+        const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
+            let recentChats = [];
+            QuerySnapshot.forEach((doc) => {
+                recentChats.push({ ...doc.data(), id: doc.id });
+            });
+
+
+            console.log(recentChats)
+
+            setRecentChats(recentChats);
+        });
+
+        // setRecentChats([{
+        //     name: "John Doe",
+        //     lastMessage: "Hello, how are you?",
+        //     lastMessageDate: 1679580261,
+        // }])
+    }, [userDoc])
 
     return (
         <RecentChatsStyled>
             <SearchBar />
             <div className="recent-chats-ct">
-                {chats.map((chat, index) => (
-                    <RecentChatItem chat={chat} key={index} />
+                {recentChats.map((recentChat, index) => (
+                    <RecentChatItem recentChat={recentChat} key={index} />
                 ))}
             </div>
         </RecentChatsStyled>
