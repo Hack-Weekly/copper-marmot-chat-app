@@ -1,11 +1,10 @@
-import { RecentChatItemStyled } from "./RecentChatItem.styled";
-import { ProfilePicture } from "../../ProfilePicture/ProfilePicture";
 import moment from "moment";
+import { useEffect, useState } from "react";
 import { TIME_FORMAT } from "../../../../consts";
-import { useContext, useEffect, useState } from "react";
-import { consoleLogGreen, getOtherUserDoc } from "../../../../utils";
-import { ConversationUserContext } from "../../Dashboard";
 import { auth } from "../../../../firebase";
+import { getOtherUserDoc } from "../../../../firebaseUtils";
+import { ProfilePicture } from "../../ProfilePicture/ProfilePicture";
+import { RecentChatItemStyled } from "./RecentChatItem.styled";
 
 const RecentChatItem = (props) => {
     const chat = props.recentChat;

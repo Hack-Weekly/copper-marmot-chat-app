@@ -1,11 +1,8 @@
 import { faComment } from "@fortawesome/free-regular-svg-icons";
 import { faGlobeAmericas } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
-import { createContext, useEffect, useState } from "react";
-import { auth, db } from "../../firebase";
+import { createContext, useState } from "react";
 import logo from "../../img/copper_dashboard_logo.png";
-import { getOtherUserDoc } from "../../utils";
 import BasicButton from "../BasicButton/BasicButton";
 import { DashboardStyled, LeftDashboardStyled, LogoStyled, RightDashboardHeaderStyled, RightDashboardStyled } from "./Dashboard.styled";
 import MainView from "./MainView/MainView";

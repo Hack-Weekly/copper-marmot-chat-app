@@ -1,23 +1,17 @@
+import {
+  collection, limit, onSnapshot, orderBy, query
+} from "firebase/firestore";
+import moment from "moment";
 import { useContext, useEffect, useState } from "react";
+import { DATE_FORMAT, TIME_FORMAT } from "../../../consts";
+import { auth, db } from "../../../firebase";
+import { getOtherUserDoc } from "../../../firebaseUtils";
+import { isToday } from "../../../utils";
+import { ConversationContext } from "../Dashboard";
 import { ProfilePicture } from "../ProfilePicture/ProfilePicture";
 import { MainViewStyled } from "./MainView.styled";
 import { Message } from "./Message/Message";
 import { MessageBar } from "./MessageBar/MessageBar";
-import { auth, db } from "../../../firebase";
-import {
-  query,
-  collection,
-  orderBy,
-  onSnapshot,
-  limit,
-  where,
-  getDoc,
-} from "firebase/firestore";
-import moment from "moment";
-import { DATE_FORMAT, TIME_FORMAT } from "../../../consts";
-import { getOtherUserDoc, isToday } from "../../../utils";
-import { map } from "@firebase/util";
-import { ConversationContext, ConversationUserContext } from "../Dashboard";
 
 const MainView = (props) => {
   const [messages, setMessages] = useState([]);
@@ -84,8 +78,8 @@ const MainView = (props) => {
               isMine: message.senderId === uid,
               content: message.text,
               timestamp: message.timestamp
-                ? isToday(message.timestamp.seconds) ? moment(message.timestamp.seconds).format(TIME_FORMAT) : moment(message.timestamp.seconds).format(DATE_FORMAT)
-                : "",
+                ? isToday(message.timestamp.seconds) ? moment.unix(message.timestamp.seconds).format(TIME_FORMAT) : moment.unix(message.timestamp.seconds).format(DATE_FORMAT)
+                : moment().format(TIME_FORMAT)
             }}
           />
         ))}

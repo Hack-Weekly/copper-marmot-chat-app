@@ -49,7 +49,7 @@ export const MainViewStyled = styled.div`
     display: flex;
     flex-direction: column-reverse;
     flex: 1;
-    /* justify-content: flex-end; */
+    padding: 0 4px;
     gap: 16px;
     overflow-y: scroll;
   }

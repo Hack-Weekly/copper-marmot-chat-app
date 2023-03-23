@@ -1,14 +1,28 @@
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import React from "react";
-import { auth } from "../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { GoogleAuthProvider, signInWithRedirect } from "firebase/auth";
+import { auth } from "../../firebase";
+import { createUserDoc, getUserDoc } from "../../firebaseUtils";
 
 const LandingPage = () => {
   const [user] = useAuthState(auth);
+  auth.signOut()
 
   const googleSignIn = () => {
     const provider = new GoogleAuthProvider();
-    signInWithRedirect(auth, provider);
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        const user = result.user;
+        getUserDoc(user.uid)
+          .then(res => {
+            if (!res.exists())
+              createUserDoc(user);
+          })
+
+        console.log(user);
+      }).catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
