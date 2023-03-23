@@ -1,13 +1,15 @@
-import { ProfilePictureStyled } from "./ProfilePicture.styled"
-import pfpPic from '../../../img/pfp_joel.png';
+import { ProfilePictureStyled } from "./ProfilePicture.styled";
+import { auth } from "../../../firebase";
 
 export const ProfilePicture = () => {
-    return (
-        <ProfilePictureStyled>
-            <div className="img-ct">
-                <img src={pfpPic} alt="avatar" />
-            </div>
-            <span className="online-indicator"></span>
-        </ProfilePictureStyled>
-    )
-}
+  const { photoURL } = auth.currentUser;
+
+  return (
+    <ProfilePictureStyled>
+      <div className="img-ct">
+        <img src={photoURL} alt="avatar" />
+      </div>
+      <span className="online-indicator"></span>
+    </ProfilePictureStyled>
+  );
+};
