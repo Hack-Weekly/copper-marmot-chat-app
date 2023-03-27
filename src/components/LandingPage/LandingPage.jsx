@@ -7,9 +7,6 @@ import { createUserDoc, getUserDoc } from "../../firebaseUtils";
 const LandingPage = () => {
   const [user] = useAuthState(auth);
 
-  // TODO: remove this when everyone already has a user doc
-  auth.signOut();
-
   const googleSignIn = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
@@ -45,6 +42,7 @@ const LandingPage = () => {
               aria-describedby="emailHelp"
               placeholder="Email"
               style={{ backgroundColor: "#46525E" }}
+              disabled
             />
           </div>
           <div className="form mb-2">
@@ -54,17 +52,21 @@ const LandingPage = () => {
               id="password"
               placeholder="Password"
               style={{ backgroundColor: "#46525E" }}
+              disabled
             />
           </div>
           <button
             type="submit"
             className="btn border shadow rounded-4 px-5 mb-3"
+            disabled
           >
             Sign in
           </button>
           <p>Or</p>
           <div className="d-grid">
-            <button
+          </div>
+        </form>
+        <button
               className="btn btn-light rounded-pill border"
               onClick={googleSignIn}
             >
@@ -75,8 +77,6 @@ const LandingPage = () => {
               />
               Continue with Google
             </button>
-          </div>
-        </form>
       </div>
     </div>
   );
