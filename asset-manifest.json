@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/copper-marmot-chat-app/static/css/main.5bf2825f.css",
-    "main.js": "/copper-marmot-chat-app/static/js/main.be7c6e6f.js",
+    "main.js": "/copper-marmot-chat-app/static/js/main.e27a505d.js",
     "static/js/787.6f726199.chunk.js": "/copper-marmot-chat-app/static/js/787.6f726199.chunk.js",
     "static/media/pfp_joel.png": "/copper-marmot-chat-app/static/media/pfp_joel.9f256730aba39dac769e.png",
     "index.html": "/copper-marmot-chat-app/index.html",
     "main.5bf2825f.css.map": "/copper-marmot-chat-app/static/css/main.5bf2825f.css.map",
-    "main.be7c6e6f.js.map": "/copper-marmot-chat-app/static/js/main.be7c6e6f.js.map",
+    "main.e27a505d.js.map": "/copper-marmot-chat-app/static/js/main.e27a505d.js.map",
     "787.6f726199.chunk.js.map": "/copper-marmot-chat-app/static/js/787.6f726199.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.5bf2825f.css",
-    "static/js/main.be7c6e6f.js"
+    "static/js/main.e27a505d.js"
   ]
 }
