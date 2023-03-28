@@ -1,6 +1,7 @@
 import { collection, DocumentReference, endAt, getDocs, limit, onSnapshot, orderBy, query, startAt, where } from "firebase/firestore";
 import { useContext, useEffect, useState } from "react";
 import { db, auth } from '../../../firebase';
+import { searchByKeyword } from "../../../firebaseUtils";
 import { UserContext } from "../../../pages/Main";
 import { ConversationContext } from "../Dashboard";
 import RecentChatItem from "./RecentChatItem/RecentChatItem";
@@ -12,7 +13,7 @@ const RecentChats = (props) => {
     const currentConversation = useContext(ConversationContext);
     const setCurrentConversation = props.setCurrentConversation;
     const { displayName, uid } = auth.currentUser;
-    const userDoc = useContext(UserContext);
+    const { userDoc, setUserDoc } = useContext(UserContext);
     const [searchQuery, setSearchQuery] = useState("");
 
     const handleRecentChatClick = (data) => {
@@ -47,20 +48,12 @@ const RecentChats = (props) => {
         if (searchQuery.length > 0) {
             setRecentChats([]);
             console.log("searching")
-            getDocs(query(
-                collection(db, "users"),
-                orderBy("name"),
-                startAt(searchQuery),
-                endAt(searchQuery + "\uf8ff"),
-                limit(50)
-            ))
+            searchByKeyword("users", searchQuery.toLowerCase())
                 .then((QuerySnapshot) => {
                     let recentChats = [];
                     QuerySnapshot.forEach((doc) => {
                         recentChats.push({ ...doc.data(), id: doc.id });
-                        console.log(recentChats);
                     });
-
                     setRecentChats(recentChats);
                 })
                 .catch((error) => {

@@ -1,21 +1,34 @@
-import { GoogleAuthProvider, signInWithPopup, signInWithRedirect } from "firebase/auth";
-import React from "react";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+import React, { useContext } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../../firebase";
+import { auth, db } from "../../firebase";
 import { createUserDoc, getUserDoc } from "../../firebaseUtils";
+import { UserContext } from "../../pages/Main";
 
 const LandingPage = () => {
   const [user] = useAuthState(auth);
+  const { userDoc, setUserDoc } = useContext(UserContext);
 
-  const googleSignIn = () => {
+  const googleSignIn = async () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
       .then((result) => {
         const user = result.user;
         getUserDoc(user.uid)
           .then(res => {
-            if (!res.exists())
-              createUserDoc(user);
+            if (!res.exists()) {
+              createUserDoc(user)
+                .then(_ => {
+                  getDoc(doc(db, "users", user.uid))
+                    .then((doc) => {
+                      setUserDoc(doc);
+                    })
+                    .catch((error) => {
+                      console.log(error);
+                    });
+                });
+            }
           })
 
         console.log(user);
@@ -67,16 +80,16 @@ const LandingPage = () => {
           </div>
         </form>
         <button
-              className="btn btn-light rounded-pill border"
-              onClick={googleSignIn}
-            >
-              <img
-                src="https://img.icons8.com/color/16/000000/google-logo.png"
-                className="me-2"
-                alt="Google Logo"
-              />
-              Continue with Google
-            </button>
+          className="btn btn-light rounded-pill border"
+          onClick={googleSignIn}
+        >
+          <img
+            src="https://img.icons8.com/color/16/000000/google-logo.png"
+            className="me-2"
+            alt="Google Logo"
+          />
+          Continue with Google
+        </button>
       </div>
     </div>
   );

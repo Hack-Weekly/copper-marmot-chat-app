@@ -11,6 +11,7 @@ export const UserContext = createContext(null);
 const Main = () => {
   const [user] = useAuthState(auth);
   const [userDoc, setUserDoc] = useState(null);
+  const userProvider = { userDoc, setUserDoc };
 
   useEffect(() => {
     if (!user)
@@ -26,7 +27,7 @@ const Main = () => {
   }, [user]);
 
   return (
-    <UserContext.Provider value={userDoc}>
+    <UserContext.Provider value={userProvider}>
       {/* <NavBar /> */}
       {user ? <Dashboard /> : <LandingPage />}
     </UserContext.Provider>
